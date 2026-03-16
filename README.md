@@ -1,20 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Job Watcher Frontend
+
+A modern Next.js frontend for tracking job opportunities from tech companies.
+
+## Features
+
+- **Real-time Job Listings** - Live updates from SQLite database
+- **Advanced Search** - Filter by title, company, or keywords  
+- **Statistics Dashboard** - Track total jobs and companies
+- **Location Support** - Display job locations (Remote, Belgium, etc.)
+- **Responsive Design** - Works on all devices
+- **Fast Performance** - Built with Next.js and Tailwind CSS
+
+## Tech Stack
+
+- **Frontend**: Next.js 16, React 19, TypeScript
+- **Styling**: Tailwind CSS, Lucide Icons
+- **Database**: SQLite with custom API routes
+- **Deployment**: Ready for Vercel
+
+## Project Structure
+
+```
+job-watcher-frontend/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── jobs/route.ts      # Job data API
+│   │   │   └── stats/route.ts     # Statistics API
+│   │   ├── page.tsx              # Main dashboard
+│   │   └── layout.tsx            # App layout
+│   ├── components/
+│   │   ├── JobCard.tsx           # Job listing component
+│   │   └── SearchBar.tsx         # Search functionality
+│   ├── lib/
+│   │   ├── database.ts            # SQLite integration
+│   │   └── utils.ts              # Utility functions
+│   └── types/
+│       └── index.ts               # TypeScript types
+├── public/
+├── package.json
+├── vercel.json                   # Vercel deployment config
+└── README.md
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js 18+ 
+- npm or yarn
+- SQLite database with job data
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
