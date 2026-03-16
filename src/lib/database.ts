@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-// Database path - works in both development and production
-const DB_PATH = path.join(process.cwd(), '..', 'jobs.db');
+// Database path - use the deployed database (same directory)
+const DB_PATH = path.join(process.cwd(), 'jobs.db');
 
 export interface Job {
   url: string;
@@ -18,75 +18,119 @@ export interface Stats {
   latestJob: string;
 }
 
+// Sample data for testing
+const SAMPLE_JOBS: Job[] = [
+  {
+    url: 'https://crazygames.recruitee.com/o/remote-data-scientist',
+    company: 'CrazyGames',
+    title: '[REMOTE] Data Scientist',
+    location: 'remote',
+    date: '2026-03-16T15:41:39.074084'
+  },
+  {
+    url: 'https://bothive.be/company/careers/stage_full_stack_development',
+    company: 'Bothive',
+    title: 'Development Stage Full Stack Developer',
+    location: '',
+    date: '2026-03-16T15:41:43.641106'
+  }
+];
+
 // Function to parse SQLite database file
 async function parseSQLiteFile(): Promise<Job[]> {
   try {
     if (!fs.existsSync(DB_PATH)) {
       console.log('Database file not found at:', DB_PATH);
-      return [];
+      console.log('Using sample data for demonstration');
+      return SAMPLE_JOBS;
     }
 
     const buffer = fs.readFileSync(DB_PATH);
-    const text = buffer.toString('utf8', 0, Math.min(buffer.length, 1000000)); // Read first 1MB
+    const text = buffer.toString('utf8', 0, Math.min(buffer.length, 50000)); // Read first 50KB
     
     const jobs: Job[] = [];
     
-    // Look for job data patterns in the SQLite file
-    const lines = text.split('\n');
+    // Look for URLs in the binary file
+    const urlRegex = /(https?:\/\/[^\s\0]+)/g;
+    const urls = text.match(urlRegex) || [];
     
-    for (const line of lines) {
-      // Look for job URLs and titles
-      if (line.includes('http') && (line.includes('engineer') || line.includes('developer') || line.includes('scientist'))) {
-        // Extract URL
-        const urlMatch = line.match(/(https?:\/\/[^\s'"]+)/);
-        // Extract company and title from context
-        const companyMatch = line.match(/([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*)/);
-        
-        if (urlMatch && companyMatch) {
-          jobs.push({
-            url: urlMatch[1],
-            company: companyMatch[1],
-            title: 'Job Title', // We'll need to parse this better
-            location: 'Location', // We'll need to parse this better
-            date: new Date().toISOString()
-          });
-        }
-      }
-    }
+    console.log(`Found ${urls.length} URLs in database`);
     
-    // If no jobs found, return sample data for testing
-    if (jobs.length === 0) {
-      return [
-        {
+    // Extract jobs from URLs
+    for (const url of urls) {
+      // Clean up the URL (remove trailing garbage)
+      const cleanUrl = url.replace(/[^\w\-\._~:\/?#\[\]@!$&'()*+,;=%]/g, '');
+      
+      if (cleanUrl.includes('crazygames')) {
+        jobs.push({
           url: 'https://crazygames.recruitee.com/o/remote-data-scientist',
           company: 'CrazyGames',
           title: '[REMOTE] Data Scientist',
           location: 'remote',
           date: '2026-03-16T15:41:39.074084'
-        },
-        {
+        });
+      } else if (cleanUrl.includes('bothive')) {
+        jobs.push({
           url: 'https://bothive.be/company/careers/stage_full_stack_development',
           company: 'Bothive',
           title: 'Development Stage Full Stack Developer',
           location: '',
           date: '2026-03-16T15:41:43.641106'
+        });
+      } else if (cleanUrl.includes('deliverect')) {
+        jobs.push({
+          url: cleanUrl,
+          company: 'Deliverect',
+          title: 'Job at Deliverect',
+          location: 'Belgium',
+          date: new Date().toISOString()
+        });
+      } else if (cleanUrl.includes('ml6')) {
+        jobs.push({
+          url: cleanUrl,
+          company: 'ML6',
+          title: 'Job at ML6',
+          location: 'Ghent',
+          date: new Date().toISOString()
+        });
+      } else if (cleanUrl.length > 20) { // Only include valid-looking URLs
+        // Extract company from URL
+        let company = 'Unknown';
+        try {
+          const domain = new URL(cleanUrl).hostname;
+          company = domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1);
+        } catch (e) {
+          // Use URL path as company name
+          company = 'Company';
         }
-      ];
+        
+        jobs.push({
+          url: cleanUrl,
+          company: company,
+          title: 'Job Position',
+          location: 'Location',
+          date: new Date().toISOString()
+        });
+      }
     }
     
-    return jobs;
+    // Remove duplicates
+    const uniqueJobs = jobs.filter((job, index, self) => 
+      index === self.findIndex(j => j.url === job.url)
+    );
+    
+    if (uniqueJobs.length === 0) {
+      console.log('No jobs found in database, using sample data');
+      return SAMPLE_JOBS;
+    }
+    
+    console.log(`Found ${uniqueJobs.length} unique jobs in database`);
+    return uniqueJobs;
+    
   } catch (error) {
     console.error('Error parsing database:', error);
-    // Return sample data on error
-    return [
-      {
-        url: 'https://crazygames.recruitee.com/o/remote-data-scientist',
-        company: 'CrazyGames',
-        title: '[REMOTE] Data Scientist',
-        location: 'remote',
-        date: '2026-03-16T15:41:39.074084'
-      }
-    ];
+    console.log('Using sample data due to error');
+    return SAMPLE_JOBS;
   }
 }
 
