@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/database';
+import { getAllJobs, getJobsByCompany, searchJobs } from '@/lib/database';
 
 export async function GET(request: NextRequest) {
   try {
@@ -9,11 +9,11 @@ export async function GET(request: NextRequest) {
 
     let jobs;
     if (company) {
-      jobs = await db.getJobsByCompany(company);
+      jobs = await getJobsByCompany(company);
     } else if (search) {
-      jobs = await db.searchJobs(search);
+      jobs = await searchJobs(search);
     } else {
-      jobs = await db.getAllJobs();
+      jobs = await getAllJobs();
     }
 
     return NextResponse.json(jobs);
