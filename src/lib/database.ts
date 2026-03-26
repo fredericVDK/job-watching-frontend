@@ -36,7 +36,7 @@ const SAMPLE_JOBS: Job[] = [
   }
 ];
 
-// Function to parse SQLite database file
+// Function to parse SQLite database file properly
 async function parseSQLiteFile(): Promise<Job[]> {
   try {
     if (!fs.existsSync(DB_PATH)) {
@@ -45,87 +45,45 @@ async function parseSQLiteFile(): Promise<Job[]> {
       return SAMPLE_JOBS;
     }
 
-    const buffer = fs.readFileSync(DB_PATH);
-    const text = buffer.toString('utf8', 0, Math.min(buffer.length, 50000)); // Read first 50KB
+    // Since we can't use sqlite3 directly in Next.js edge runtime,
+    // we'll use a Python script to read the database
+    const { exec } = require('child_process');
+    const { promisify } = require('util');
+    const execAsync = promisify(exec);
     
-    const jobs: Job[] = [];
-    
-    // Look for URLs in the binary file
-    const urlRegex = /(https?:\/\/[^\s\0]+)/g;
-    const urls = text.match(urlRegex) || [];
-    
-    console.log(`Found ${urls.length} URLs in database`);
-    
-    // Extract jobs from URLs
-    for (const url of urls) {
-      // Clean up the URL (remove trailing garbage)
-      const cleanUrl = url.replace(/[^\w\-\._~:\/?#\[\]@!$&'()*+,;=%]/g, '');
+    try {
+      const { stdout } = await execAsync(`python3 -c "
+import sqlite3
+import json
+
+conn = sqlite3.connect('${DB_PATH}')
+cursor = conn.cursor()
+cursor.execute('SELECT url, company, title, location, first_seen_at FROM seen_jobs ORDER BY first_seen_at DESC')
+rows = cursor.fetchall()
+
+jobs = []
+for row in rows:
+    jobs.append({
+        'url': row[0],
+        'company': row[1],
+        'title': row[2],
+        'location': row[3],
+        'date': row[4]
+    })
+
+print(json.dumps(jobs))
+conn.close()
+      "`);
       
-      if (cleanUrl.includes('crazygames')) {
-        jobs.push({
-          url: 'https://crazygames.recruitee.com/o/remote-data-scientist',
-          company: 'CrazyGames',
-          title: '[REMOTE] Data Scientist',
-          location: 'remote',
-          date: '2026-03-16T15:41:39.074084'
-        });
-      } else if (cleanUrl.includes('bothive')) {
-        jobs.push({
-          url: 'https://bothive.be/company/careers/stage_full_stack_development',
-          company: 'Bothive',
-          title: 'Development Stage Full Stack Developer',
-          location: '',
-          date: '2026-03-16T15:41:43.641106'
-        });
-      } else if (cleanUrl.includes('deliverect')) {
-        jobs.push({
-          url: cleanUrl,
-          company: 'Deliverect',
-          title: 'Job at Deliverect',
-          location: 'Belgium',
-          date: new Date().toISOString()
-        });
-      } else if (cleanUrl.includes('ml6')) {
-        jobs.push({
-          url: cleanUrl,
-          company: 'ML6',
-          title: 'Job at ML6',
-          location: 'Ghent',
-          date: new Date().toISOString()
-        });
-      } else if (cleanUrl.length > 20) { // Only include valid-looking URLs
-        // Extract company from URL
-        let company = 'Unknown';
-        try {
-          const domain = new URL(cleanUrl).hostname;
-          company = domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1);
-        } catch (e) {
-          // Use URL path as company name
-          company = 'Company';
-        }
-        
-        jobs.push({
-          url: cleanUrl,
-          company: company,
-          title: 'Job Position',
-          location: 'Location',
-          date: new Date().toISOString()
-        });
-      }
-    }
-    
-    // Remove duplicates
-    const uniqueJobs = jobs.filter((job, index, self) => 
-      index === self.findIndex(j => j.url === job.url)
-    );
-    
-    if (uniqueJobs.length === 0) {
-      console.log('No jobs found in database, using sample data');
+      const jobs = JSON.parse(stdout);
+      console.log(`Found ${jobs.length} jobs in database`);
+      return jobs;
+      
+    } catch (pythonError) {
+      console.error('Python script failed:', pythonError);
+      console.log('Falling back to sample data');
       return SAMPLE_JOBS;
     }
-    
-    console.log(`Found ${uniqueJobs.length} unique jobs in database`);
-    return uniqueJobs;
     
   } catch (error) {
     console.error('Error parsing database:', error);
