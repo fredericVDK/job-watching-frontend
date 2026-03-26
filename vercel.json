@@ -1,0 +1,13 @@
+{
+  "buildCommand": "cd job-watcher-frontend && npm run build",
+  "outputDirectory": "job-watcher-frontend/.next",
+  "installCommand": "cd job-watcher-frontend && npm install",
+  "framework": "nextjs",
+  "rootDirectory": "job-watcher-frontend",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ]
+}
