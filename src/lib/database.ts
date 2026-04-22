@@ -1,5 +1,5 @@
 // Airtable configuration
-const AIRTABLE_PAT = process.env.AIRTABLE_PAT || 'patbODVsP51MOH5YY.0b6e08b16e1bf172f309475ef996609fdbdf46a6a0a857c8218b7cc6b7cf0c4d';
+const AIRTABLE_PAT = process.env.AIRTABLE_PAT || 'patGY6DBZG27I7qcj.6d7efa95a66160ae6a9a3a359762c7a112007711094fdcf75554ea7cee4f9498';
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID || 'appyhNeHrg7LUy575';
 const AIRTABLE_JOBS_TABLE = 'Jobs';
 const AIRTABLE_COMPANIES_TABLE = 'Companies';
