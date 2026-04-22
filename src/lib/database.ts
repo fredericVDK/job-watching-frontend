@@ -41,18 +41,26 @@ async function fetchFromAirtable(table: string, formula?: string) {
 // Function to fetch jobs from Airtable
 async function fetchJobsFromAirtable(): Promise<Job[]> {
   try {
+    console.log('Fetching from Airtable...');
+    console.log('Base ID:', AIRTABLE_BASE_ID);
+    console.log('Table:', AIRTABLE_JOBS_TABLE);
+    
     const records = await fetchFromAirtable(AIRTABLE_JOBS_TABLE);
+    console.log('Records found:', records.length);
+    console.log('Sample record:', records[0]?.fields);
     
     return records.map((record: any) => ({
-      url: record.fields['job URL'] || '',
-      company: 'Unknown', // You can add company field later if needed
-      title: record.fields['job title'] || 'Unknown Position',
-      location: 'Unknown', // You can add location field later if needed
-      date: new Date().toISOString() // Use current date since you don't have date field
+      url: record.fields['job URL'] || record.fields['Job URL'] || '',
+      company: record.fields['Company']?.[0] || 'Unknown',
+      title: record.fields['job title'] || record.fields['Job Title'] || 'Unknown Position',
+      location: record.fields['Location'] || 'Unknown',
+      date: record.fields['Date Found'] || new Date().toISOString()
     }));
     
   } catch (error) {
     console.error('Error fetching from Airtable:', error);
+    console.error('PAT length:', AIRTABLE_PAT?.length || 'undefined');
+    console.error('Base ID:', AIRTABLE_BASE_ID);
     return [];
   }
 }
