@@ -50,9 +50,9 @@ async function fetchJobsFromAirtable(): Promise<Job[]> {
     console.log('Sample record:', records[0]?.fields);
     
     return records.map((record: any) => ({
-      url: record.fields['job URL'] || record.fields['Job URL'] || '',
+      url: record.fields['Job URL'] || '',
       company: record.fields['Company']?.[0] || 'Unknown',
-      title: record.fields['job title'] || record.fields['Job Title'] || 'Unknown Position',
+      title: record.fields['Job Title'] || 'Unknown Position',
       location: record.fields['Location'] || 'Unknown',
       date: record.fields['Date Found'] || new Date().toISOString()
     }));
