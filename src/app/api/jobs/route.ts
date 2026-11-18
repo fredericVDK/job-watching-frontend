@@ -1,27 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllJobs, getJobsByCompany, searchJobs } from '@/lib/database';
+import { listJobs } from '@/lib/db';
+import type { View } from '@/types';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+const VIEWS: View[] = ['new', 'todo', 'saved', 'applied', 'hidden', 'all'];
 
 export async function GET(request: NextRequest) {
+  const p = request.nextUrl.searchParams;
+  const view = (VIEWS.includes(p.get('view') as View) ? p.get('view') : 'new') as View;
   try {
-    const { searchParams } = new URL(request.url);
-    const company = searchParams.get('company');
-    const search = searchParams.get('search');
-
-    let jobs;
-    if (company) {
-      jobs = await getJobsByCompany(company);
-    } else if (search) {
-      jobs = await searchJobs(search);
-    } else {
-      jobs = await getAllJobs();
-    }
-
+    const jobs = listJobs({
+      view,
+      q: p.get('q')?.trim() || undefined,
+      cv: p.get('cv') || undefined,
+      minScore: Number(p.get('minScore') || 0),
+      sort: p.get('sort') === 'date' ? 'date' : 'score',
+    });
     return NextResponse.json(jobs);
   } catch (error) {
     console.error('Database error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch jobs' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Kon jobs niet laden' }, { status: 500 });
   }
 }

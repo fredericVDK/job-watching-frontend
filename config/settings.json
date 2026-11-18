@@ -1,0 +1,30 @@
+{
+  "_uitleg": "Pas dit bestand gerust aan. Profielen/keywords uit je CV's staan in profile.json (die wordt automatisch opnieuw gemaakt).",
+
+  "cvFolder": "../CV/Nieuw",
+
+  "minScore": 5,
+  "maxYearsExperience": 4,
+
+  "extraRoles": ["junior developer", "graduate developer", "young graduate", "starter ict", "ict consultant", "it consultant", "support engineer", "application engineer", "technical consultant"],
+  "extraSkills": [],
+
+  "excludeTitleWords": ["senior", "experienced", "ervaren", "confirmed", "confirmé", "sr.", "sr ", "lead", "principal", "staff", "head of", "manager", "director", "architect", "expert", "intern", "internship", "stage", "stagiair", "thesis", "masterproef", "student", "jobstudent", "freelance", "freelancer", "sales", "account executive", "recruiter", "teacher", "docent"],
+  "excludeCompanies": [],
+
+  "preferredLocations": ["gent", "ghent", "gand", "eeklo", "oost-vlaanderen", "east flanders", "zwijnaarde", "merelbeke", "deinze", "lochristi", "nazareth", "aalter", "wetteren", "sint-martens-latem", "destelbergen", "evergem"],
+  "allowedLocations": ["belgium", "belgie", "belgië", "belgique", "brussel", "brussels", "bruxelles", "antwerpen", "antwerp", "anvers", "leuven", "louvain", "mechelen", "malines", "brugge", "bruges", "kortrijk", "courtrai", "hasselt", "aalst", "sint-niklaas", "oudenaarde", "lokeren", "dendermonde", "waregem", "roeselare", "oostende", "ostend", "torhout", "tielt", "ieper", "zaventem", "diegem", "machelen", "vilvoorde", "lier", "turnhout", "geel", "genk", "herentals", "wavre", "waver", "liège", "luik", "namur", "namen", "charleroi", "mons", "bergen", "louvain-la-neuve", "kontich", "edegem", "mortsel", "zellik", "ninove", "geraardsbergen", "zele", "beveren", "temse", "harelbeke", "menen", "vlaanderen", "flanders", "wallonie"],
+  "allowRemote": true,
+  "excludeFreelance": true,
+
+  "maxMinutesPerSource": 10,
+  "maxDetailsPerSource": 300,
+
+  "sources": {
+    "companies": true,
+    "ictjob": true,
+    "adzuna": true,
+    "remotive": true,
+    "arbeitnow": true
+  }
+}

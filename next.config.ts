@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // De app leest de lokale SQLite-database (data/jobwatcher.db) via node:sqlite.
+  serverExternalPackages: [],
 };
 
 export default nextConfig;
