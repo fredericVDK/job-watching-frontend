@@ -60,3 +60,7 @@ jobs.db
 /data/
 /logs/
 config/profile.json
+
+# Google service-account sleutel (geheim!)
+config/google-service-account.json
+config/*service-account*.json

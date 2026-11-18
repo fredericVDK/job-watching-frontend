@@ -47,3 +47,35 @@ export function docxToText(path) {
     .filter((l) => l && !l.startsWith('INCLUDEPICTURE'))
     .join('\n');
 }
+
+/** Minimale .xlsx-lezer: geeft [{ name, rows: string[][] }] per tabblad terug. */
+export function readXlsx(path) {
+  const buf = readFileSync(path);
+  const get = (name) => { try { return readZipEntry(buf, name).toString('utf8'); } catch { return ''; } };
+  const shared = [...get('xl/sharedStrings.xml').matchAll(/<si>([\s\S]*?)<\/si>/g)].map((m) =>
+    decodeEntities([...m[1].matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map((t) => t[1]).join('')));
+  const attr = (tag, name) => (tag.match(new RegExp(`\\s${name}="([^"]*)"`)) || [])[1];
+  const rels = Object.fromEntries([...get('xl/_rels/workbook.xml.rels').matchAll(/<Relationship\b[^>]*>/g)].map(([t]) => [attr(t, 'Id'), attr(t, 'Target')]));
+  const sheets = [...get('xl/workbook.xml').matchAll(/<sheet\b[^>]*>/g)].map(([t]) => [t, attr(t, 'name'), attr(t, 'r:id')]);
+  const colIdx = (ref) => [...ref.replace(/\d+/g, '')].reduce((n, ch) => n * 26 + ch.charCodeAt(0) - 64, 0) - 1;
+  return sheets.map(([, name, rid]) => {
+    const target = rels[rid] || '';
+    const xml = get(target.startsWith('/') ? target.slice(1) : `xl/${target}`);
+    const rows = [];
+    for (const rm of xml.matchAll(/<row\b[^>]*>([\s\S]*?)<\/row>/g)) {
+      const row = [];
+      for (const cm of rm[1].matchAll(/<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g)) {
+        const attrs = cm[1];
+        const ref = (attrs.match(/r="([A-Z]+\d+)"/) || [])[1];
+        const type = (attrs.match(/t="(\w+)"/) || [])[1];
+        const inner = cm[2] || '';
+        let v = (inner.match(/<v>([\s\S]*?)<\/v>/) || [])[1] ?? '';
+        if (type === 's') v = shared[Number(v)] ?? '';
+        else if (type === 'inlineStr') v = [...inner.matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map((t) => t[1]).join('');
+        row[ref ? colIdx(ref) : row.length] = decodeEntities(String(v));
+      }
+      rows.push(Array.from(row, (x) => x ?? ''));
+    }
+    return { name: decodeEntities(name), rows };
+  });
+}

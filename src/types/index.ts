@@ -19,7 +19,11 @@ export interface Job {
   matched: string[];
   status: JobStatus;
   status_at: string | null;
-  stale: boolean; // niet meer gezien in de laatste runs -> mogelijk offline
+  stale: boolean;
+  distance_km: number | null;
+  loc_kind: 'near' | 'remote' | 'unknown' | 'far' | 'foreign' | null;
+  note: string | null; // bv. "In je sheet (Gesolliciteerd): Qargo – Backend Software Engineer, 02/05/2026"
+ // niet meer gezien in de laatste runs -> mogelijk offline
 }
 
 export interface RunInfo {

@@ -12,7 +12,8 @@ import { resolve } from 'node:path';
 import { openDb, normalizeKey, DB_PATH } from './db.mjs';
 import { loadSettings, loadProfile, loadCompanies, loadEnv, ROOT } from './settings.mjs';
 import { buildProfile } from './keywords.mjs';
-import { scoreJob, prefilter } from './match.mjs';
+import { scoreJob, prefilter, locationAllowed } from './match.mjs';
+import { loadApplications, findApplication } from './applications.mjs';
 import { fetchCompany } from './sources/ats.mjs';
 import { ictjob, adzuna, remotive, arbeitnow } from './sources/boards.mjs';
 import { pool, sleep } from './http.mjs';
@@ -58,7 +59,7 @@ const SOURCES = {
     const companies = loadCompanies().filter((c) => c.ats && !c.disabled);
     const errors = [];
     const lists = await pool(companies, 6, async (c) => {
-      try { return await fetchCompany(c); }
+      try { return (await fetchCompany(c)).map((j) => ({ ...j, companyCity: c.city, belgian: true })); }
       catch (e) { errors.push(`${c.name}: ${e.message}`); return []; }
     });
     if (errors.length) log(`  ⚠ ${errors.length} bedrijven gaven een fout: ${errors.slice(0, 5).join(' | ')}${errors.length > 5 ? ' …' : ''}`);
@@ -72,6 +73,17 @@ const SOURCES = {
 const only = args.only ? String(args.only).split(',') : null;
 const enabled = Object.keys(SOURCES).filter((k) => (only ? only.includes(k) : settings.sources[k] !== false));
 
+// Je sollicitatie-overzicht (Google Sheet / Excel)
+let apps = [];
+try {
+  const r = await loadApplications(settings);
+  apps = r.apps;
+  log(r.skipped ? `– sollicitaties: overgeslagen (${r.skipped})` : `✔ sollicitaties: ${apps.length} rijen ingelezen uit je sheet`);
+} catch (e) {
+  log(`⚠ sollicitaties: ${e.message}`);
+}
+const appNote = (a) => `In je sheet (${a.tab}): ${a.company} – ${a.title || a.url}${a.date ? `, ${a.date}` : ''}`;
+
 const db = DRY ? null : openDb();
 const now = new Date().toISOString();
 const runId = DRY ? 0 : Number(db.prepare('INSERT INTO runs (started_at) VALUES (?)').run(now).lastInsertRowid);
@@ -83,8 +95,8 @@ const q = DRY ? null : {
   seen: db.prepare('SELECT 1 FROM seen_urls WHERE url = ?'),
   markSeen: db.prepare('INSERT OR IGNORE INTO seen_urls (url, first_seen_at) VALUES (?, ?)'),
   insert: db.prepare(`INSERT INTO jobs (url, dedupe_key, source, company, title, location, remote, description, posted_at,
-      first_seen_at, last_seen_at, first_run_id, score, best_cv, matched)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`),
+      first_seen_at, last_seen_at, first_run_id, score, best_cv, matched, distance_km, loc_kind, status, status_at, note)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`),
 };
 
 // "Mechelen, Vlaams Gewest, Belgium, Mechelen, Belgium" -> "Mechelen, Vlaams Gewest, Belgium"
@@ -162,17 +174,45 @@ for (const name of enabled) {
     const key = normalizeKey(job.company, job.title);
     if (!DRY) {
       if (q.byUrl.get(job.url) || q.byKey.get(key)) continue; // dubbel binnen dezelfde run
+      const app = findApplication(job, apps);
       q.insert.run(
         job.url, key, job.source, job.company || null, job.title, cleanLocation(job.location), job.remote ? 1 : 0,
         (job.description || '').slice(0, 20000), job.posted_at || null, now, now, runId, r.score, r.bestCv, JSON.stringify(r.matched),
+        r.km, r.locKind, app ? app.mark : 'new', app ? now : null, app ? appNote(app) : null,
       );
       q.markSeen.run(job.url, now);
+      if (app) { st.inSheet = (st.inSheet || 0) + 1; continue; } // al gesolliciteerd/afgewezen -> niet als nieuw tellen
     }
     st.new++;
     newCount++;
     newJobs.push({ ...job, ...r });
   }
-  log(`✔ ${name.padEnd(10)} ${String(st.found).padStart(5)} gevonden, ${String(st.detail).padStart(4)} details, ${String(st.new).padStart(3)} nieuw  (${((Date.now() - t0) / 1000).toFixed(0)}s)${st.postponed ? `  – ${st.postponed} uitgesteld naar volgende run` : ''}`);
+  log(`✔ ${name.padEnd(10)} ${String(st.found).padStart(5)} gevonden, ${String(st.detail).padStart(4)} details, ${String(st.new).padStart(3)} nieuw${st.inSheet ? ` (+${st.inSheet} al in je sheet)` : ''}  (${((Date.now() - t0) / 1000).toFixed(0)}s)${st.postponed ? `  – ${st.postponed} uitgesteld naar volgende run` : ''}`);
+}
+
+// Onderhoud: bestaande jobs opnieuw toetsen aan je straal en je sollicitatie-sheet
+// (zo werkt een aangepaste maxDistanceKm of een nieuwe rij in je sheet meteen voor alle jobs).
+if (!DRY) {
+  const cityOf = Object.fromEntries(loadCompanies().filter((c) => c.city).map((c) => [c.name, c.city]));
+  const upd = db.prepare('UPDATE jobs SET distance_km = ?, loc_kind = ?, out_of_range = ? WHERE id = ?');
+  const mark = db.prepare('UPDATE jobs SET status = ?, status_at = ?, note = ? WHERE id = ?');
+  let outCount = 0, sheetCount = 0;
+  for (const j of db.prepare('SELECT id, url, source, company, title, location, remote, status FROM jobs').all()) {
+    const loc = locationAllowed({
+      location: j.location, remote: !!j.remote, companyCity: cityOf[j.company],
+      belgian: !['remotive', 'arbeitnow'].includes(j.source),
+    }, settings);
+    upd.run(loc.km ?? null, loc.kind, loc.ok ? 0 : 1, j.id);
+    if (!loc.ok) outCount++;
+    if (['new', 'seen', 'saved'].includes(j.status)) {
+      const a = findApplication(j, apps);
+      if (a && a.mark !== j.status && !(a.mark === 'saved' && j.status === 'saved')) {
+        mark.run(a.mark, now, appNote(a), j.id);
+        sheetCount++;
+      }
+    }
+  }
+  log(`Onderhoud: ${outCount} jobs buiten ${settings.maxDistanceKm} km verborgen, ${sheetCount} jobs bijgewerkt vanuit je sollicitatie-sheet`);
 }
 
 if (!DRY) {
@@ -183,5 +223,5 @@ if (!DRY) {
 
 newJobs.sort((a, b) => b.score - a.score);
 log(`Klaar: ${totalFound} vacatures bekeken, ${newCount} nieuwe matches${DRY ? ' (dry run, niets opgeslagen)' : ` → ${DB_PATH}`}`);
-for (const j of newJobs.slice(0, 15)) log(`   ${String(j.score).padStart(5)}  [${j.bestCv}] ${j.title} — ${j.company || '?'} (${j.location || '?'})`);
+for (const j of newJobs.slice(0, 15)) log(`   ${String(j.score).padStart(5)}  [${j.bestCv}] ${j.title} — ${j.company || '?'} (${j.km != null ? `${j.km} km` : j.locKind})`);
 writeFileSync(resolve(ROOT, 'logs', 'last-run.json'), JSON.stringify({ at: now, totalFound, newCount, stats }, null, 2));

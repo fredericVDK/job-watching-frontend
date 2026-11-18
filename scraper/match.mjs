@@ -1,3 +1,4 @@
+import { locate } from './geo.mjs';
 // Bepaalt of een vacature bij je CV's past en geeft een score.
 //
 // Score-opbouw (per CV-profiel, het beste profiel wint):
@@ -26,7 +27,6 @@ const has = (text, phrase) => phraseRe(phrase).test(text);
 
 const JUNIOR = ['junior', 'jr', 'graduate', 'young graduate', 'starter', 'entry level', 'entry-level', 'trainee', 'schoolverlater', 'pas afgestudeerd', 'beginnend', 'debutant'];
 const GENERIC_TECH = ['developer', 'engineer', 'ontwikkelaar', 'programmeur', 'programmer', 'analyst', 'analist', 'consultant', 'administrator', 'beheerder', 'ingenieur', 'architect', 'specialist', 'technician', 'technicus'];
-const REMOTE_OK = ['europe', 'emea', 'eu', 'belgium', 'benelux', 'worldwide', 'anywhere', 'global', 'cet', 'netherlands'];
 
 function requiredYears(text) {
   const re = /(?<!(?:tot|to|-|–|à|and|en)\s*)(?<!\d)(\d{1,2})\s*\+?\s*(?:(?:-|–|tot|to|à)\s*\d{1,2}\s*)?(?:years?|yrs|jaar|jaren|ans|année?s)\b/gi;
@@ -39,6 +39,24 @@ function requiredYears(text) {
 }
 
 /**
+ * Ligt de job binnen je straal (maxDistanceKm rond settings.home)?
+ * near = binnen de straal · remote = volledig thuiswerk · unknown = geen plaats vermeld
+ */
+export function locationAllowed(job, settings) {
+  const loc = locate(job, settings.home, settings.maxDistanceKm);
+  const where = job.location || job.companyCity || '?';
+  switch (loc.kind) {
+    case 'near': return { ok: true, ...loc };
+    case 'remote':
+      if (!settings.allowRemote) return { ok: false, ...loc, reason: `remote (${where})` };
+      return { ok: true, ...loc };
+    case 'unknown': return settings.unknownLocation === 'drop' ? { ok: false, ...loc, reason: 'locatie onbekend' } : { ok: true, ...loc };
+    case 'far': return { ok: false, ...loc, reason: `${loc.km} km (${where})` };
+    default: return { ok: false, ...loc, reason: `buitenland (${where})` };
+  }
+}
+
+/**
  * Snelle check op enkel titel/bedrijf/locatie, vóór we een (dure) detailpagina ophalen.
  */
 export function prefilter(job, profile, settings) {
@@ -48,10 +66,9 @@ export function prefilter(job, profile, settings) {
   if (company && settings.excludeCompanies.some((c) => company.includes(norm(c)))) return { ok: false, reason: 'bedrijf uitgesloten' };
   const badWord = settings.excludeTitleWords.find((w) => has(norm(job.title), w.trim()));
   if (badWord) return { ok: false, reason: `titel bevat "${badWord.trim()}"` };
-  if (location && !job.belgian) {
-    const inBe = [...settings.preferredLocations, ...settings.allowedLocations].some((l) => has(location, l)) || /\bbe\b/.test(location);
-    const remote = job.remote || /remote|thuiswerk/.test(location);
-    if (!inBe && !(remote && settings.allowRemote)) return { ok: false, reason: `locatie "${job.location}"` };
+  if (location || job.companyCity) {
+    const loc = locationAllowed(job, settings);
+    if (!loc.ok) return { ok: false, reason: loc.reason };
   }
   const roleOrTech =
     GENERIC_TECH.some((w) => has(title, w)) ||
@@ -68,21 +85,13 @@ export function prefilter(job, profile, settings) {
 export function scoreJob(job, profile, settings) {
   const title = norm(job.title);
   const desc = norm(job.description || '').slice(0, 20000);
-  const location = norm(job.location || '');
-  const company = norm(job.company || '');
-
   const pre = prefilter(job, profile, settings);
   if (!pre.ok) return { ok: false, score: 0, reason: pre.reason };
   if (job.freelance && settings.excludeFreelance !== false) return { ok: false, score: 0, reason: 'freelance' };
 
-  // Locatie
-  const preferred = settings.preferredLocations.some((l) => has(location, l));
-  const inBelgium = job.belgian || preferred || settings.allowedLocations.some((l) => has(location, l)) || /\bbe\b/.test(location);
-  const isRemote = job.remote || /remote|thuiswerk|telewerk|home ?office|work from home/.test(location);
-  if (!inBelgium) {
-    const remoteOk = isRemote && settings.allowRemote && (!location || REMOTE_OK.some((r) => has(location, r)) || location === 'remote');
-    if (!remoteOk) return { ok: false, score: 0, reason: `locatie "${job.location}"` };
-  }
+  // Locatie: afstand tot je thuisadres
+  const loc = locationAllowed(job, settings);
+  if (!loc.ok) return { ok: false, score: 0, reason: loc.reason };
 
   let best = { score: -Infinity };
   for (const p of profile.profiles) {
@@ -115,8 +124,9 @@ export function scoreJob(job, profile, settings) {
   let score = best.score;
   if (JUNIOR.some((w) => has(title, w))) score += 3;
   else if (JUNIOR.some((w) => has(desc, w))) score += 1.5;
-  if (preferred) score += 2;
-  if (isRemote) score += 0.5;
+  if (loc.km !== null && loc.km <= 10) score += 2;
+  else if (loc.kind === 'near') score += 1;
+  if (loc.kind === 'remote') score += 0.5;
   const years = requiredYears(desc);
   if (years > settings.maxYearsExperience) score -= 4;
 
@@ -126,6 +136,8 @@ export function scoreJob(job, profile, settings) {
     score,
     bestCv: best.bestCv,
     matched: [...new Set(best.matched)],
+    km: loc.km,
+    locKind: loc.kind,
     reason: score < settings.minScore ? `score ${score} < ${settings.minScore}` : undefined,
   };
 }

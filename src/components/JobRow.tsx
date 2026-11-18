@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowUpRight, Bookmark, BookmarkCheck, Check, ChevronDown, EyeOff, MapPin, RotateCcw, Building2, Wifi, AlertTriangle } from 'lucide-react';
+import { ArrowUpRight, Bookmark, BookmarkCheck, Check, ChevronDown, EyeOff, MapPin, RotateCcw, Building2, Wifi, AlertTriangle, FileSpreadsheet, HelpCircle } from 'lucide-react';
 import type { Job, JobStatus } from '@/types';
 import { cn, relativeDay, sourceLabel } from '@/lib/utils';
 
@@ -64,10 +64,20 @@ export function JobRow({ job, isNewRun, onStatus, onOpen }: Props) {
             <Building2 className="h-3.5 w-3.5 opacity-60" />
             {job.company || 'Onbekend bedrijf'}
           </span>
-          {job.location && (
-            <span className="inline-flex items-center gap-1.5 max-w-[28rem] truncate" title={job.location}>
+          {(job.location || job.distance_km !== null) && (
+            <span className="inline-flex items-center gap-1.5 max-w-[30rem]" title={job.location ?? ''}>
               <MapPin className="h-3.5 w-3.5 opacity-60 shrink-0" />
-              <span className="truncate">{job.location}</span>
+              {job.location && <span className="truncate">{job.location}</span>}
+              {job.distance_km !== null && job.loc_kind === 'near' && (
+                <span className="shrink-0 font-mono text-xs tabular-nums rounded bg-[var(--chip)] px-1.5 py-0.5 text-[var(--ink-2)]" title="Afstand in vogelvlucht vanaf thuis">
+                  {Math.round(job.distance_km)} km
+                </span>
+              )}
+            </span>
+          )}
+          {job.loc_kind === 'unknown' && (
+            <span className="inline-flex items-center gap-1 font-mono text-xs text-[var(--ink-3)]" title="De vacature vermeldt geen duidelijke plaats – check zelf of ze binnen je straal ligt">
+              <HelpCircle className="h-3 w-3" /> locatie onbekend
             </span>
           )}
           {job.remote && (
@@ -134,6 +144,12 @@ export function JobRow({ job, isNewRun, onStatus, onOpen }: Props) {
           </a>
         </div>
       </div>
+
+      {job.note && (
+        <p className="col-start-2 inline-flex items-start gap-1.5 text-xs text-[var(--ink-3)]">
+          <FileSpreadsheet className="h-3.5 w-3.5 mt-px shrink-0" /> {job.note}
+        </p>
+      )}
 
       {open && (
         <p className="col-start-2 whitespace-pre-line rounded-lg bg-[var(--muted-bg)] p-4 text-sm leading-relaxed text-[var(--ink-2)]">

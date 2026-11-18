@@ -57,6 +57,13 @@ export function openDb() {
       first_seen_at TEXT NOT NULL
     );
   `);
+  // Migraties voor bestaande databases (kolommen toegevoegd in v2.1)
+  const cols = new Set(db.prepare('PRAGMA table_info(jobs)').all().map((c) => c.name));
+  const add = (name, def) => { if (!cols.has(name)) db.exec(`ALTER TABLE jobs ADD COLUMN ${name} ${def}`); };
+  add('distance_km', 'REAL');
+  add('loc_kind', 'TEXT');                    // near | remote | unknown | far | foreign
+  add('out_of_range', 'INTEGER DEFAULT 0');   // 1 = buiten je straal -> niet tonen
+  add('note', 'TEXT');                        // bv. "Staat in je Sollicitaties-sheet"
   return db;
 }
 

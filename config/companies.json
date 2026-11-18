@@ -7,7 +7,8 @@
       "ats": {
         "type": "greenhouse",
         "slug": "showpad"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Teamleader",
@@ -16,7 +17,8 @@
       "ats": {
         "type": "recruitee",
         "url": "https://careers.teamleader.eu"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "TechWolf",
@@ -25,7 +27,8 @@
       "ats": {
         "type": "recruitee",
         "slug": "techwolf"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Aikido Security",
@@ -34,7 +37,8 @@
       "ats": {
         "type": "recruitee",
         "slug": "aikidosecurity"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Bothive",
@@ -76,7 +80,8 @@
       "name": "Robovision",
       "website": "https://robovision.ai",
       "checkedAt": "2026-11-18",
-      "noAts": true
+      "noAts": true,
+      "city": "Gent"
     },
     {
       "name": "OTIV",
@@ -97,7 +102,8 @@
       "ats": {
         "type": "teamtailor",
         "url": "https://ml6.teamtailor.com"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "In The Pocket",
@@ -106,7 +112,8 @@
       "ats": {
         "type": "greenhouse",
         "slug": "inthepocket"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Silverfin",
@@ -116,7 +123,8 @@
         "type": "lever",
         "slug": "silverfin",
         "region": "eu"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Lighthouse",
@@ -125,7 +133,8 @@
       "ats": {
         "type": "greenhouse",
         "slug": "lighthouse"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "SweepBright",
@@ -140,7 +149,8 @@
       "ats": {
         "type": "html",
         "url": "https://usewhale.io/careers/"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Azumuta",
@@ -218,7 +228,8 @@
       "ats": {
         "type": "lever",
         "slug": "deliverect"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "CrazyGames",
@@ -236,7 +247,8 @@
       "ats": {
         "type": "greenhouse",
         "slug": "guardsquare"
-      }
+      },
+      "city": "Leuven"
     },
     {
       "name": "DataCamp",
@@ -245,7 +257,8 @@
       "ats": {
         "type": "greenhouse",
         "slug": "datacamp"
-      }
+      },
+      "city": "Leuven"
     },
     {
       "name": "Factry",
@@ -338,7 +351,8 @@
       "ats": {
         "type": "greenhouse",
         "slug": "collibra"
-      }
+      },
+      "city": "Brussel"
     },
     {
       "name": "Exact",
@@ -347,13 +361,15 @@
       "ats": {
         "type": "html",
         "url": "https://www.exact.com/nl/werken-bij"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Esko",
       "website": "https://esko.com",
       "checkedAt": "2026-11-18",
-      "noAts": true
+      "noAts": true,
+      "city": "Gent"
     },
     {
       "name": "Codit",
@@ -362,19 +378,22 @@
       "ats": {
         "type": "teamtailor",
         "url": "https://codit.teamtailor.com"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Fourcast",
       "website": "https://fourcast.io",
       "checkedAt": "2026-11-18",
-      "noAts": true
+      "noAts": true,
+      "city": "Gent"
     },
     {
       "name": "Combell",
       "website": "https://combell.com",
       "checkedAt": "2026-11-18",
-      "noAts": true
+      "noAts": true,
+      "city": "Gent"
     },
     {
       "name": "Inuits",
@@ -404,7 +423,8 @@
       "ats": {
         "type": "html",
         "url": "https://itineris.net/global/careers/"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Unifiedpost",
@@ -470,7 +490,8 @@
       "ats": {
         "type": "html",
         "url": "https://www.plainsight.pro/jobs"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Agilytic",
@@ -509,7 +530,8 @@
       "ats": {
         "type": "html",
         "url": "https://www.nviso.eu/jobs"
-      }
+      },
+      "city": "Brussel"
     },
     {
       "name": "ACA Group",
@@ -686,13 +708,15 @@
       "name": "Productive",
       "website": "https://productive.io",
       "checkedAt": "2026-11-18",
-      "noAts": true
+      "noAts": true,
+      "city": "Gent"
     },
     {
       "name": "Henchman",
       "website": "https://henchman.co",
       "checkedAt": "2026-11-18",
-      "noAts": true
+      "noAts": true,
+      "city": "Gent"
     },
     {
       "name": "Toqua",
@@ -701,7 +725,8 @@
       "ats": {
         "type": "html",
         "url": "https://toqua.ai/careers"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Sortlist",
@@ -722,7 +747,8 @@
       "ats": {
         "type": "teamtailor",
         "url": "https://careers.qargo.com/jobs.rss"
-      }
+      },
+      "city": "Gent"
     },
     {
       "name": "Tiko",

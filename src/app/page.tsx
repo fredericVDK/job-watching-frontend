@@ -17,7 +17,7 @@ const TABS: { id: View; label: string; hint: string }[] = [
 
 const belongs = (view: View, status: JobStatus) =>
   ({
-    new: status !== 'hidden',
+    new: status !== 'hidden' && status !== 'applied',
     todo: status === 'new',
     saved: status === 'saved',
     applied: status === 'applied',
@@ -251,7 +251,7 @@ export default function Home() {
         </section>
         {jobs.length > 0 && (
           <p className="mt-4 px-4 sm:px-0 font-mono text-xs text-[var(--ink-3)]">
-            {jobs.length} {jobs.length === 1 ? 'job' : 'jobs'} · score = hoe goed de vacature bij je CV&apos;s past (rol, skills, junior, regio Gent)
+            {jobs.length} {jobs.length === 1 ? 'job' : 'jobs'} · score = hoe goed de vacature bij je CV&apos;s past (rol, skills, junior, afstand) · km = in vogelvlucht vanaf thuis
           </p>
         )}
       </main>

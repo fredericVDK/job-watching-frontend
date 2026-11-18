@@ -5,8 +5,27 @@ import type { Job, JobStatus, RunInfo, Stats, View } from '@/types';
 
 export const DB_PATH = process.env.JOBWATCHER_DB || path.join(process.cwd(), 'data', 'jobwatcher.db');
 
+let migrated = false;
+/** Zelfde kolommen als scraper/db.mjs, voor het geval de app vóór een nieuwe scraperrun opent. */
+function migrate() {
+  if (migrated || !existsSync(DB_PATH)) return;
+  const db = new DatabaseSync(DB_PATH);
+  try {
+    const cols = new Set((db.prepare('PRAGMA table_info(jobs)').all() as Row[]).map((c) => String(c.name)));
+    const add = (name: string, def: string) => { if (!cols.has(name)) db.exec(`ALTER TABLE jobs ADD COLUMN ${name} ${def}`); };
+    add('distance_km', 'REAL');
+    add('loc_kind', 'TEXT');
+    add('out_of_range', 'INTEGER DEFAULT 0');
+    add('note', 'TEXT');
+    migrated = true;
+  } finally {
+    db.close();
+  }
+}
+
 function open(readOnly = true): DatabaseSync | null {
   if (!existsSync(DB_PATH)) return null;
+  migrate();
   const db = new DatabaseSync(DB_PATH, { readOnly });
   db.exec('PRAGMA busy_timeout = 5000');
   return db;
@@ -24,13 +43,14 @@ function lastDoneRunId(db: DatabaseSync): number {
   return Number(r?.id ?? 0);
 }
 
+// Jobs buiten je straal (out_of_range = 1) worden nergens getoond.
 const VIEW_SQL: Record<View, string> = {
-  new: "first_run_id = :lastRun AND status <> 'hidden'",
-  todo: "status = 'new'",
-  saved: "status = 'saved'",
+  new: "first_run_id = :lastRun AND status NOT IN ('hidden', 'applied') AND out_of_range = 0",
+  todo: "status = 'new' AND out_of_range = 0",
+  saved: "status = 'saved' AND out_of_range = 0",
   applied: "status = 'applied'",
   hidden: "status = 'hidden'",
-  all: "status <> 'hidden'",
+  all: "status <> 'hidden' AND out_of_range = 0",
 };
 
 export interface JobQuery {
@@ -58,7 +78,7 @@ export function listJobs({ view, q, cv, minScore = 0, sort = 'score' }: JobQuery
     }
     const order = sort === 'date' ? 'first_seen_at DESC, score DESC' : 'score DESC, first_seen_at DESC';
     const sql = `SELECT id, url, source, company, title, location, remote, substr(description, 1, 600) AS snippet, posted_at,
-                first_seen_at, last_seen_at, first_run_id, score, best_cv, matched, status, status_at
+                first_seen_at, last_seen_at, first_run_id, score, best_cv, matched, status, status_at, distance_km, loc_kind, note
          FROM jobs WHERE ${where.join(' AND ')} ORDER BY ${order} LIMIT 500`;
     const rows = db.prepare(sql).all(bind(sql, params)) as Row[];
 

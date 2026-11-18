@@ -12,9 +12,11 @@ const DEFAULTS = {
   extraSkills: [],
   excludeTitleWords: [],
   excludeCompanies: [],
-  preferredLocations: [],
-  allowedLocations: [],
+  home: { address: 'Brugsesteenweg 40, 9000 Gent', lat: 51.0641, lng: 3.694 },
+  maxDistanceKm: 25,
+  unknownLocation: 'keep',
   allowRemote: true,
+  applications: {},
   sources: {},
 };
 
