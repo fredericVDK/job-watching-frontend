@@ -1,0 +1,809 @@
+{
+  "companies": [
+    {
+      "name": "Showpad",
+      "website": "https://showpad.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "greenhouse",
+        "slug": "showpad"
+      }
+    },
+    {
+      "name": "Teamleader",
+      "website": "https://teamleader.eu",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "url": "https://careers.teamleader.eu"
+      }
+    },
+    {
+      "name": "TechWolf",
+      "website": "https://techwolf.ai",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "techwolf"
+      }
+    },
+    {
+      "name": "Aikido Security",
+      "website": "https://aikido.dev",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "aikidosecurity"
+      }
+    },
+    {
+      "name": "Bothive",
+      "website": "https://bothive.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "StoryChief",
+      "website": "https://storychief.io",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Waylay",
+      "website": "https://waylay.io",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Uman",
+      "website": "https://uman.ai",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Cheqroom",
+      "website": "https://cheqroom.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Journy",
+      "website": "https://journy.io",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Robovision",
+      "website": "https://robovision.ai",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "OTIV",
+      "website": "https://otiv.ai",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Rombit",
+      "website": "https://rombit.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "ML6",
+      "website": "https://ml6.eu",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "teamtailor",
+        "url": "https://ml6.teamtailor.com"
+      }
+    },
+    {
+      "name": "In The Pocket",
+      "website": "https://inthepocket.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "greenhouse",
+        "slug": "inthepocket"
+      }
+    },
+    {
+      "name": "Silverfin",
+      "website": "https://silverfin.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "lever",
+        "slug": "silverfin",
+        "region": "eu"
+      }
+    },
+    {
+      "name": "Lighthouse",
+      "website": "https://mylighthouse.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "greenhouse",
+        "slug": "lighthouse"
+      }
+    },
+    {
+      "name": "SweepBright",
+      "website": "https://sweepbright.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Whale",
+      "website": "https://usewhale.io",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://usewhale.io/careers/"
+      }
+    },
+    {
+      "name": "Azumuta",
+      "website": "https://azumuta.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "azumuta"
+      }
+    },
+    {
+      "name": "Setle",
+      "website": "https://setle.ai",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Donna",
+      "website": "https://askdonna.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "donna"
+      }
+    },
+    {
+      "name": "Introw",
+      "website": "https://introw.io",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Arkite",
+      "website": "https://arkite.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Awingu",
+      "website": "https://awingu.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Phished",
+      "website": "https://phished.io",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "phished"
+      }
+    },
+    {
+      "name": "Tengu",
+      "website": "https://tengu.io",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Hello Customer",
+      "website": "https://hellocustomer.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Limecraft",
+      "website": "https://limecraft.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Deliverect",
+      "website": "https://deliverect.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "lever",
+        "slug": "deliverect"
+      }
+    },
+    {
+      "name": "CrazyGames",
+      "website": "https://crazygames.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "crazygames"
+      }
+    },
+    {
+      "name": "Guardsquare",
+      "website": "https://guardsquare.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "greenhouse",
+        "slug": "guardsquare"
+      }
+    },
+    {
+      "name": "DataCamp",
+      "website": "https://datacamp.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "greenhouse",
+        "slug": "datacamp"
+      }
+    },
+    {
+      "name": "Factry",
+      "website": "https://factry.io",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.factry.io/company/jobs"
+      }
+    },
+    {
+      "name": "Timefold",
+      "website": "https://timefold.ai",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "personio",
+        "slug": "timefold"
+      }
+    },
+    {
+      "name": "LegalFly",
+      "website": "https://legalfly.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "legalfly"
+      }
+    },
+    {
+      "name": "Cashfeed",
+      "website": "https://cashfeed.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "IT Planet",
+      "website": "https://it-planet.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Cheops Technology",
+      "website": "https://cheops.be",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.cheops.com/jobs/"
+      }
+    },
+    {
+      "name": "Cognite",
+      "website": "https://cognite.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "greenhouse",
+        "slug": "cognite"
+      }
+    },
+    {
+      "name": "Cegeka",
+      "website": "https://cegeka.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.cegeka.com/en/be/jobs/about-cegeka"
+      }
+    },
+    {
+      "name": "Lansweeper",
+      "website": "https://lansweeper.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "lansweeper"
+      }
+    },
+    {
+      "name": "Odoo",
+      "website": "https://odoo.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.odoo.com/nl_NL/jobs"
+      }
+    },
+    {
+      "name": "Collibra",
+      "website": "https://collibra.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "greenhouse",
+        "slug": "collibra"
+      }
+    },
+    {
+      "name": "Exact",
+      "website": "https://exact.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.exact.com/nl/werken-bij"
+      }
+    },
+    {
+      "name": "Esko",
+      "website": "https://esko.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Codit",
+      "website": "https://codit.eu",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "teamtailor",
+        "url": "https://codit.teamtailor.com"
+      }
+    },
+    {
+      "name": "Fourcast",
+      "website": "https://fourcast.io",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Combell",
+      "website": "https://combell.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Inuits",
+      "website": "https://inuits.eu",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Craftzing",
+      "website": "https://craftzing.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "craftzing"
+      }
+    },
+    {
+      "name": "Skryv",
+      "website": "https://skryv.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Itineris",
+      "website": "https://itineris.net",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://itineris.net/global/careers/"
+      }
+    },
+    {
+      "name": "Unifiedpost",
+      "website": "https://unifiedpost.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Datashift",
+      "website": "https://datashift.eu",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "datashift"
+      }
+    },
+    {
+      "name": "Data Minded",
+      "website": "https://dataminded.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "data"
+      }
+    },
+    {
+      "name": "Dataroots",
+      "website": "https://dataroots.io",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "dataroots"
+      }
+    },
+    {
+      "name": "Lytix",
+      "website": "https://lytix.be",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.intellus.group/jobs/"
+      }
+    },
+    {
+      "name": "Element61",
+      "website": "https://element61.be",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "personio",
+        "slug": "element61"
+      }
+    },
+    {
+      "name": "Kohera",
+      "website": "https://kohera.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Plainsight",
+      "website": "https://plainsight.pro",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.plainsight.pro/jobs"
+      }
+    },
+    {
+      "name": "Agilytic",
+      "website": "https://agilytic.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Cloudar",
+      "website": "https://cloudar.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Xylos",
+      "website": "https://xylos.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "xylos"
+      }
+    },
+    {
+      "name": "Arxus",
+      "website": "https://arxus.eu",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.arxus.eu/en-BE/jobs"
+      }
+    },
+    {
+      "name": "Nviso",
+      "website": "https://nviso.eu",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.nviso.eu/jobs"
+      }
+    },
+    {
+      "name": "ACA Group",
+      "website": "https://acagroup.be",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://acagroup.be/nl/jobs"
+      }
+    },
+    {
+      "name": "Xplore Group",
+      "website": "https://xploregroup.be",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.xploregroup.be/jobs"
+      }
+    },
+    {
+      "name": "Ordina",
+      "website": "https://ordina.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Inetum",
+      "website": "https://inetum.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "delaware",
+      "website": "https://delaware.pro",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.delaware.pro/en-be/careers"
+      }
+    },
+    {
+      "name": "Tobania",
+      "website": "https://tobania.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Nalys",
+      "website": "https://nalys-group.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Smals",
+      "website": "https://smals.be",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://smals.be/nl/jobs/jouw-voordelen-bij-smals"
+      }
+    },
+    {
+      "name": "Digipolis Gent (district09)",
+      "website": "https://district09.gent",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://district09.gent/nl/werken-bij-district09/vacatures"
+      }
+    },
+    {
+      "name": "Vanden Broele",
+      "website": "https://vandenbroele.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "iO",
+      "website": "https://iodigital.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "iodigital"
+      }
+    },
+    {
+      "name": "Kunstmaan",
+      "website": "https://kunstmaan.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Klarrio",
+      "website": "https://klarrio.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "OneSpan",
+      "website": "https://onespan.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "greenhouse",
+        "slug": "onespan"
+      }
+    },
+    {
+      "name": "Barco",
+      "website": "https://barco.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Televic",
+      "website": "https://televic.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "televic"
+      }
+    },
+    {
+      "name": "Proximus",
+      "website": "https://proximus.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Telenet",
+      "website": "https://telenet.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "DPG Media",
+      "website": "https://dpgmediagroup.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "dpgmedia"
+      }
+    },
+    {
+      "name": "VRT",
+      "website": "https://vrt.be",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.vrt.be/nl/jobs/kan-ik-als-zelfstandige-werken-voor-vrt"
+      }
+    },
+    {
+      "name": "Mediahuis",
+      "website": "https://mediahuis.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Colruyt Group",
+      "website": "https://colruytgroup.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "recruitee",
+        "slug": "colruytgroup"
+      }
+    },
+    {
+      "name": "Sentiance",
+      "website": "https://sentiance.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Productive",
+      "website": "https://productive.io",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Henchman",
+      "website": "https://henchman.co",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Toqua",
+      "website": "https://toqua.ai",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://toqua.ai/careers"
+      }
+    },
+    {
+      "name": "Sortlist",
+      "website": "https://sortlist.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Spotr",
+      "website": "https://spotr.ai",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Qargo",
+      "website": "https://qargo.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "teamtailor",
+        "url": "https://careers.qargo.com/jobs.rss"
+      }
+    },
+    {
+      "name": "Tiko",
+      "website": "https://tiko.energy",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Accountable",
+      "website": "https://accountable.eu",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Lemon Way",
+      "website": "https://lemonway.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "teamtailor",
+        "url": "https://lemon.teamtailor.com"
+      }
+    },
+    {
+      "name": "Mollie",
+      "website": "https://mollie.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "ashby",
+        "slug": "mollie"
+      }
+    },
+    {
+      "name": "Yuso",
+      "website": "https://yuso.be",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "greenhouse",
+        "slug": "yuso"
+      }
+    },
+    {
+      "name": "Exellys",
+      "website": "https://exellys.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Cronos",
+      "website": "https://cronos.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "The Learning Hub",
+      "website": "https://thelearninghub.be",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    },
+    {
+      "name": "Sopra Steria",
+      "website": "https://soprasteria.be",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "smartrecruiters",
+        "slug": "SopraSteria1"
+      }
+    },
+    {
+      "name": "Vintecc",
+      "website": "https://vintecc.com",
+      "checkedAt": "2026-11-18",
+      "ats": {
+        "type": "html",
+        "url": "https://www.vintecc.com/careers"
+      }
+    },
+    {
+      "name": "Melexis",
+      "website": "https://melexis.com",
+      "checkedAt": "2026-11-18",
+      "noAts": true
+    }
+  ]
+}

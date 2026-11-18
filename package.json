@@ -1,15 +1,20 @@
 {
-  "name": "job-watcher-frontend",
-  "version": "0.1.0",
+  "name": "jobwatcher",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "app": "next build && next start",
+    "scrape": "node --no-warnings=ExperimentalWarning scraper/run.mjs",
+    "keywords": "node scraper/keywords.mjs",
+    "discover": "node scraper/discover.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "geist": "^1.9.2",
     "lucide-react": "^0.577.0",
     "next": "16.1.6",
     "react": "19.2.3",
@@ -18,12 +23,15 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^22.20.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=22.13"
   }
 }

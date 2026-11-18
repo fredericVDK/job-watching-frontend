@@ -1,16 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getStats } from '@/lib/database';
+import { NextResponse } from 'next/server';
+import { getStats } from '@/lib/db';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const stats = await getStats();
-
-    return NextResponse.json(stats);
+    return NextResponse.json(getStats());
   } catch (error) {
     console.error('Stats error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch stats' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Kon statistieken niet laden' }, { status: 500 });
   }
 }
